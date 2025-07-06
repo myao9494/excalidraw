@@ -7,7 +7,7 @@ import { createApiClient } from "./api-client";
 
 import { BackupManager } from "./backupManager";
 
-import { ApiClientError, NetworkError } from "./api-types";
+// import { ApiClientError, NetworkError } from "./api-types";
 
 import type { BackupConfig } from "./backupManager";
 

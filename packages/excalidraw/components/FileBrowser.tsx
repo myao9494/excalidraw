@@ -5,11 +5,11 @@
 
 import React, { useState, useMemo } from "react";
 
-import type { FileInfo } from "../data/api-types";
-
 import { FilledButton } from "./FilledButton";
 import { Modal } from "./Modal";
 import "./FileBrowser.scss";
+
+import type { FileInfo } from "../data/api-types";
 
 type SortBy = "name" | "size" | "modified";
 type SortOrder = "asc" | "desc";

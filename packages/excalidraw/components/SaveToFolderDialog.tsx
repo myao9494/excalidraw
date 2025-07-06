@@ -11,10 +11,10 @@ import { FileSystemManager } from "../data/fileSystemManager";
 
 import { performSaveToFolder } from "../actions/actionFolderSave";
 
-import { t } from "../i18n";
+// import { t } from "../i18n";
 
 import { FolderSelector } from "./FolderSelector";
-import { FileBrowser } from "./FileBrowser";
+// import { FileBrowser } from "./FileBrowser";
 import { FilledButton } from "./FilledButton";
 import { Modal } from "./Modal";
 

@@ -7,9 +7,10 @@ import { describe, it, expect, beforeEach } from "vitest";
 
 import { FileSystemManager } from "../data/fileSystemManager";
 
-import type { ExcalidrawData } from "../data/api-types";
+// import type { ExcalidrawData } from "../data/api-types";
 
 // モックデータ
+/*
 const mockExcalidrawData: ExcalidrawData = {
   type: "excalidraw",
   version: 2,
@@ -19,6 +20,7 @@ const mockExcalidrawData: ExcalidrawData = {
     viewBackgroundColor: "#ffffff",
   },
 };
+*/
 
 describe("FileSystemManager", () => {
   let fileManager: FileSystemManager;

@@ -9,8 +9,8 @@ import { CaptureUpdateAction } from "@excalidraw/element";
 import type { ExcalidrawElement } from "@excalidraw/element/types";
 
 import { FileSystemManager } from "../data/fileSystemManager";
-import { serializeAsJSON } from "../data/json";
-import { t } from "../i18n";
+// import { serializeAsJSON } from "../data/json";
+// import { t } from "../i18n";
 
 import { folderIcon, LoadIcon, saveAs } from "../components/icons";
 

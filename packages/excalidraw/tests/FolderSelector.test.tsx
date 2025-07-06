@@ -5,7 +5,7 @@
 import { describe, it, expect } from "vitest";
 
 import { FolderSelector } from "../components/FolderSelector";
-import { FileSystemManager } from "../data/fileSystemManager";
+// import { FileSystemManager } from "../data/fileSystemManager";
 
 describe("FolderSelector", () => {
   describe("基本機能", () => {

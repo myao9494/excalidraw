@@ -3,15 +3,15 @@
  * ディレクトリ階層の表示とナビゲーションを提供
  */
 
-import React, { useState, useEffect } from "react";
-
-import type { FileSystemManager } from "../data/fileSystemManager";
-import type { DirectoryListing, FileInfo } from "../data/api-types";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Spinner from "./Spinner";
 import { FilledButton } from "./FilledButton";
 import { Modal } from "./Modal";
 import "./FolderSelector.scss";
+
+import type { FileSystemManager } from "../data/fileSystemManager";
+import type { DirectoryListing, FileInfo } from "../data/api-types";
 
 interface FolderSelectorProps {
   onFolderSelect: (folderPath: string) => void;
@@ -38,24 +38,27 @@ export const FolderSelector: React.FC<FolderSelectorProps> = ({
   const [creating, setCreating] = useState(false);
 
   // フォルダ一覧を読み込み
-  const loadFolders = async (path: string) => {
-    setLoading(true);
-    setError(null);
+  const loadFolders = useCallback(
+    async (path: string) => {
+      setLoading(true);
+      setError(null);
 
-    try {
-      const listing = await fileManager.listFolderContents(path);
-      setFolders(listing);
-    } catch (err) {
-      setError(fileManager.getErrorMessage(err as Error));
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        const listing = await fileManager.listFolderContents(path);
+        setFolders(listing);
+      } catch (err) {
+        setError(fileManager.getErrorMessage(err as Error));
+      } finally {
+        setLoading(false);
+      }
+    },
+    [fileManager],
+  );
 
   // 初期読み込み
   useEffect(() => {
     loadFolders(currentFolder);
-  }, [currentFolder]);
+  }, [currentFolder, loadFolders]);
 
   // フォルダクリック処理
   const handleFolderClick = (folderPath: string) => {

@@ -8,7 +8,7 @@ import React, { useState, useEffect } from "react";
 import type { ExcalidrawElement } from "@excalidraw/element/types";
 
 import { useAutoSave } from "../hooks/useAutoSave";
-import { getUrlFileParams, updateUrlFileParams } from "../utils/urlParams";
+// import { getUrlFileParams, updateUrlFileParams } from "../utils/urlParams";
 
 import type { AppState, BinaryFiles } from "../types";
 
@@ -44,7 +44,7 @@ export const AutoSaveWrapper: React.FC<AutoSaveWrapperProps> = ({
         error: undefined,
       }));
 
-      console.log(`✅ 自動保存成功: ${path}`);
+      // 自動保存成功: ${path}
     },
     onSaveError: (error) => {
       setSaveStatus((prev) => ({
@@ -52,7 +52,7 @@ export const AutoSaveWrapper: React.FC<AutoSaveWrapperProps> = ({
         error: error.message,
       }));
 
-      console.error("❌ 自動保存エラー:", error);
+      // 自動保存エラー: ${error}
     },
     saveInterval: 30000, // 30秒間隔
     debounceDelay: 2000, // 2秒のデバウンス

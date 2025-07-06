@@ -3,7 +3,7 @@
  * URL パラメータに基づいてファイルを自動保存
  */
 
-import { useEffect, useRef, useCallback, useState, useMemo } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 
 import type { ExcalidrawElement } from "@excalidraw/element/types";
 
@@ -13,7 +13,6 @@ import {
   watchUrlParams,
   getFullFilePath,
   generateSafeFileName,
-  normalizePath,
   splitFilePath,
 } from "../utils/urlParams";
 
@@ -97,9 +96,7 @@ export const useAutoSave = ({
         // ファイル名のみをターゲットとして設定（相対パス）
         targetFolder = "";
 
-        console.log(
-          `🔍 filepath処理 (クロスプラットフォーム): baseFolder=${parentDir}, file=${fileName}`,
-        );
+        // filepath処理 (クロスプラットフォーム): baseFolder=${parentDir}, file=${fileName}
       } else {
         if (!file) {
           return;
@@ -138,9 +135,7 @@ export const useAutoSave = ({
           files, // 画像データを含める
         };
 
-        console.log(
-          `💾 保存開始: folder="${targetFolder}", file="${finalFileName}"`,
-        );
+        // 保存開始: folder="${targetFolder}", file="${finalFileName}"
 
         // フォルダに保存
         await fileManager.saveToFolder(
@@ -157,9 +152,9 @@ export const useAutoSave = ({
           onSaveSuccess(fullPath);
         }
 
-        console.log(`✅ 自動保存完了: ${fullPath}`);
+        // 自動保存完了: ${fullPath}
       } catch (error) {
-        console.error("❌ 自動保存エラー:", error);
+        // 自動保存エラー: ${error}
         if (onSaveError) {
           onSaveError(error as Error);
         }
@@ -211,14 +206,7 @@ export const useAutoSave = ({
         debouncedSave(folder, file);
       }
     }
-  }, [
-    elements,
-    appState.viewBackgroundColor,
-    currentParams.folder,
-    currentParams.file,
-    currentParams.filepath,
-    debouncedSave,
-  ]);
+  }, [elements, appState.viewBackgroundColor, currentParams, debouncedSave]);
 
   // 定期的な自動保存
   useEffect(() => {
@@ -246,12 +234,7 @@ export const useAutoSave = ({
         }
       };
     }
-  }, [
-    saveInterval,
-    currentParams.folder,
-    currentParams.file,
-    currentParams.filepath,
-  ]);
+  }, [saveInterval, currentParams]);
 
   // クリーンアップ
   useEffect(() => {

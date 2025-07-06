@@ -3,7 +3,7 @@
  * TDD原則に従い、まずテストを作成
  */
 
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 
 import {
   actionSaveToFolder,

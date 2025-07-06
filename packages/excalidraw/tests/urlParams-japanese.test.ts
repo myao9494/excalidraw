@@ -8,7 +8,7 @@ import {
   getFullFilePath,
   generateSafeFileName,
   getUrlFileParams,
-  updateUrlFileParams,
+  // updateUrlFileParams,
 } from "../utils/urlParams";
 
 describe("Japanese Path Support", () => {
@@ -93,7 +93,7 @@ describe("Japanese Path Support", () => {
       // 現在の実装では日本語文字は除去される可能性があるため、
       // まず現在の動作を確認
       const result = generateSafeFileName("図面設計書");
-      console.log("generateSafeFileName result:", result);
+      // console.log("generateSafeFileName result:", result);
 
       // 拡張子が追加されることを確認
       expect(result.endsWith(".excalidraw")).toBe(true);

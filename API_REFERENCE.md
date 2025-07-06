@@ -34,12 +34,12 @@
 
 ```typescript
 // 入力例
-"C:\\Users\\田中太郎\\Documents\\図面.excalidraw"
-"プロジェクト（２０２４年）／図面／設計書.excalidraw"
+"C:\\Users\\田中太郎\\Documents\\図面.excalidraw";
+"プロジェクト（２０２４年）／図面／設計書.excalidraw";
 
 // 正規化後
-"C:/Users/田中太郎/Documents/図面.excalidraw"
-"プロジェクト（２０２４年）/図面/設計書.excalidraw"
+"C:/Users/田中太郎/Documents/図面.excalidraw";
+"プロジェクト（２０２４年）/図面/設計書.excalidraw";
 ```
 
 ## 🔧 バックエンド API 仕様
@@ -300,7 +300,7 @@ interface FileInfoResponse {
 
 #### base_folder
 
-すべてのAPIエンドポイントで使用可能なクエリパラメータです。ファイル操作の基準ディレクトリを指定します。
+すべての API エンドポイントで使用可能なクエリパラメータです。ファイル操作の基準ディレクトリを指定します。
 
 **例**:
 
@@ -318,7 +318,7 @@ GET /api/v1/files/?base_folder=C:\Users\user\Documents
 GET /api/v1/files/?base_folder=/Users/田中太郎/ドキュメント
 ```
 
-**注意**: パスに特殊文字や日本語が含まれる場合は、URLエンコードが必要です。
+**注意**: パスに特殊文字や日本語が含まれる場合は、URL エンコードが必要です。
 
 ## 🔄 バックアップ機能
 
@@ -631,10 +631,10 @@ URL パラメータを使用してファイルパスを指定し、直接アク�
 
 ```typescript
 interface UrlFileParams {
-  folder?: string;       // フォルダパス
-  file?: string;         // ファイル名
-  baseFolder?: string;   // ベースフォルダ（作業ディレクトリ）
-  filepath?: string;     // 完全ファイルパス
+  folder?: string; // フォルダパス
+  file?: string; // ファイル名
+  baseFolder?: string; // ベースフォルダ（作業ディレクトリ）
+  filepath?: string; // 完全ファイルパス
 }
 ```
 
@@ -657,14 +657,16 @@ updateUrlFileParams({
 });
 ```
 
-#### URL例
+#### URL 例
 
 **1. フォルダ + ファイル指定**
+
 ```
 http://localhost:3000?folder=projects&file=design.excalidraw
 ```
 
 **2. ベースフォルダ指定**
+
 ```
 http://localhost:3000?baseFolder=/Users/user/Documents&folder=projects&file=design.excalidraw
 ```
@@ -672,28 +674,31 @@ http://localhost:3000?baseFolder=/Users/user/Documents&folder=projects&file=desi
 **3. 完全パス指定（クロスプラットフォーム対応）**
 
 Windows:
+
 ```
 http://localhost:3000?filepath=C:\Users\田中太郎\Documents\図面.excalidraw
 ```
 
 macOS/Linux:
+
 ```
 http://localhost:3000?filepath=/Users/田中太郎/Desktop/図面.excalidraw
 ```
 
 日本語・全角文字:
+
 ```
 http://localhost:3000?filepath=プロジェクト（２０２４年）／図面／設計書.excalidraw
 ```
 
 #### 自動エンコーディング
 
-日本語や特殊文字は自動的にURLエンコード/デコードされます：
+日本語や特殊文字は自動的に URL エンコード/デコードされます：
 
 ```typescript
 // 日本語パスの設定
 updateUrlFileParams({
-  filepath: "/Users/田中太郎/デスクトップ/図面.excalidraw"
+  filepath: "/Users/田中太郎/デスクトップ/図面.excalidraw",
 });
 
 // URL: ?filepath=%2FUsers%2F%E7%94%B0%E4%B8%AD%E5%A4%AA%E9%83%8E%2F...
@@ -707,11 +712,11 @@ console.log(params.filepath); // "/Users/田中太郎/デスクトップ/図面.
 
 ### 概要
 
-URLパラメータでファイルが指定されている場合、自動的に保存機能が有効になります。変更内容は設定した間隔で自動保存されます。
+URL パラメータでファイルが指定されている場合、自動的に保存機能が有効になります。変更内容は設定した間隔で自動保存されます。
 
 ### 自動保存の有効化条件
 
-以下のいずれかのURLパラメータが設定されている場合に自動保存が有効になります：
+以下のいずれかの URL パラメータが設定されている場合に自動保存が有効になります：
 
 - `file` パラメータが設定されている
 - `filepath` パラメータが設定されている
@@ -727,28 +732,28 @@ import { AutoSaveWrapper } from "@excalidraw/excalidraw";
   appState={appState}
   files={files}
   onAutoSaveStatusChange={(isEnabled, currentPath) => {
-    console.log(`自動保存: ${isEnabled ? '有効' : '無効'}`);
+    console.log(`自動保存: ${isEnabled ? "有効" : "無効"}`);
     if (currentPath) {
       console.log(`保存先: ${currentPath}`);
     }
   }}
 >
   <Excalidraw />
-</AutoSaveWrapper>
+</AutoSaveWrapper>;
 ```
 
 ### 設定オプション
 
 ```typescript
 interface AutoSaveOptions {
-  saveInterval: number;    // 保存間隔（ミリ秒、デフォルト: 30000）
-  debounceDelay: number;   // デバウンス遅延（ミリ秒、デフォルト: 2000）
+  saveInterval: number; // 保存間隔（ミリ秒、デフォルト: 30000）
+  debounceDelay: number; // デバウンス遅延（ミリ秒、デフォルト: 2000）
 }
 ```
 
 ### 手動保存
 
-自動保存が有効な場合、`Ctrl+Shift+S`（macOSでは`Cmd+Shift+S`）で手動保存できます。
+自動保存が有効な場合、`Ctrl+Shift+S`（macOS では`Cmd+Shift+S`）で手動保存できます。
 
 ### ステータス表示
 
@@ -759,7 +764,7 @@ interface AutoSaveOptions {
 - 📄 ファイル: 現在のファイル名
 - ✅ 最終保存: 最後に保存した時刻
 
-### API呼び出しの流れ
+### API 呼び出しの流れ
 
 1. **ファイル変更検出**: エレメントまたはアプリ状態の変更
 2. **デバウンス処理**: 設定した遅延時間後に保存実行

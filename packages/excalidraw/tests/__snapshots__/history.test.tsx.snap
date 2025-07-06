@@ -11136,7 +11136,7 @@ exports[`history > singleplayer undo/redo > remounting undo/redo buttons should 
   "hoveredElementIds": {},
   "isBindingEnabled": true,
   "isCropping": false,
-  "isLoading": false,
+  "isLoading": true,
   "isResizing": false,
   "isRotating": false,
   "lastPointerDownWith": "mouse",
@@ -11150,7 +11150,10 @@ exports[`history > singleplayer undo/redo > remounting undo/redo buttons should 
   "openMenu": null,
   "openPopup": null,
   "openSidebar": null,
-  "originSnapOffset": null,
+  "originSnapOffset": {
+    "x": 0,
+    "y": 0,
+  },
   "pasteDialog": {
     "data": null,
     "shown": false,
@@ -11168,7 +11171,7 @@ exports[`history > singleplayer undo/redo > remounting undo/redo buttons should 
   "selectionElement": null,
   "shouldCacheIgnoreZoom": false,
   "showHyperlinkPopup": false,
-  "showWelcomeScreen": false,
+  "showWelcomeScreen": true,
   "snapLines": [],
   "startBoundElement": null,
   "stats": {
@@ -11219,96 +11222,11 @@ exports[`history > singleplayer undo/redo > remounting undo/redo buttons should 
 }
 `;
 
-exports[`history > singleplayer undo/redo > remounting undo/redo buttons should initialize undo/redo state correctly > [end of test] element 1 1`] = `
-{
-  "angle": 0,
-  "backgroundColor": "transparent",
-  "boundElements": null,
-  "customData": undefined,
-  "fillStyle": "solid",
-  "frameId": null,
-  "groupIds": [],
-  "height": 10,
-  "id": "id1",
-  "index": "a1",
-  "isDeleted": true,
-  "link": null,
-  "locked": false,
-  "opacity": 100,
-  "roughness": 1,
-  "roundness": null,
-  "strokeColor": "#1e1e1e",
-  "strokeStyle": "solid",
-  "strokeWidth": 2,
-  "type": "rectangle",
-  "updated": 1,
-  "version": 4,
-  "width": 10,
-  "x": 0,
-  "y": 0,
-}
-`;
+exports[`history > singleplayer undo/redo > remounting undo/redo buttons should initialize undo/redo state correctly > [end of test] number of elements 1`] = `1`;
 
-exports[`history > singleplayer undo/redo > remounting undo/redo buttons should initialize undo/redo state correctly > [end of test] number of elements 1`] = `2`;
+exports[`history > singleplayer undo/redo > remounting undo/redo buttons should initialize undo/redo state correctly > [end of test] number of renders 1`] = `2`;
 
-exports[`history > singleplayer undo/redo > remounting undo/redo buttons should initialize undo/redo state correctly > [end of test] number of renders 1`] = `11`;
-
-exports[`history > singleplayer undo/redo > remounting undo/redo buttons should initialize undo/redo state correctly > [end of test] redo stack 1`] = `
-[
-  {
-    "appState": AppStateDelta {
-      "delta": Delta {
-        "deleted": {
-          "selectedElementIds": {},
-        },
-        "inserted": {
-          "selectedElementIds": {
-            "id1": true,
-          },
-        },
-      },
-    },
-    "elements": {
-      "added": {
-        "id1": {
-          "deleted": {
-            "isDeleted": true,
-            "version": 4,
-          },
-          "inserted": {
-            "angle": 0,
-            "backgroundColor": "transparent",
-            "boundElements": null,
-            "customData": undefined,
-            "fillStyle": "solid",
-            "frameId": null,
-            "groupIds": [],
-            "height": 10,
-            "index": "a1",
-            "isDeleted": false,
-            "link": null,
-            "locked": false,
-            "opacity": 100,
-            "roughness": 1,
-            "roundness": null,
-            "strokeColor": "#1e1e1e",
-            "strokeStyle": "solid",
-            "strokeWidth": 2,
-            "type": "rectangle",
-            "version": 3,
-            "width": 10,
-            "x": 0,
-            "y": 0,
-          },
-        },
-      },
-      "removed": {},
-      "updated": {},
-    },
-    "id": "id4",
-  },
-]
-`;
+exports[`history > singleplayer undo/redo > remounting undo/redo buttons should initialize undo/redo state correctly > [end of test] redo stack 1`] = `[]`;
 
 exports[`history > singleplayer undo/redo > remounting undo/redo buttons should initialize undo/redo state correctly > [end of test] undo stack 1`] = `[]`;
 
@@ -18144,7 +18062,7 @@ exports[`history > singleplayer undo/redo > should support bidirectional binding
   "hoveredElementIds": {},
   "isBindingEnabled": true,
   "isCropping": false,
-  "isLoading": false,
+  "isLoading": true,
   "isResizing": false,
   "isRotating": false,
   "lastPointerDownWith": "mouse",
@@ -18158,24 +18076,22 @@ exports[`history > singleplayer undo/redo > should support bidirectional binding
   "openMenu": null,
   "openPopup": null,
   "openSidebar": null,
-  "originSnapOffset": null,
+  "originSnapOffset": {
+    "x": 0,
+    "y": 0,
+  },
   "pasteDialog": {
     "data": null,
     "shown": false,
   },
   "penDetected": false,
   "penMode": false,
-  "previousSelectedElementIds": {
-    "id0": true,
-  },
+  "previousSelectedElementIds": {},
   "resizingElement": null,
   "scrollX": 0,
   "scrollY": 0,
   "searchMatches": null,
-  "selectedElementIds": {
-    "id0": true,
-    "id2": true,
-  },
+  "selectedElementIds": {},
   "selectedElementsAreBeingDragged": false,
   "selectedGroupIds": {},
   "selectionElement": null,
@@ -18202,633 +18118,13 @@ exports[`history > singleplayer undo/redo > should support bidirectional binding
 }
 `;
 
-exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] element 0 1`] = `
-{
-  "angle": 0,
-  "backgroundColor": "transparent",
-  "boundElements": [
-    {
-      "id": "id13",
-      "type": "arrow",
-    },
-    {
-      "id": "id1",
-      "type": "text",
-    },
-  ],
-  "customData": undefined,
-  "fillStyle": "solid",
-  "frameId": null,
-  "groupIds": [],
-  "height": 100,
-  "id": "id0",
-  "index": "a0",
-  "isDeleted": false,
-  "link": null,
-  "locked": false,
-  "opacity": 100,
-  "roughness": 1,
-  "roundness": null,
-  "strokeColor": "#1e1e1e",
-  "strokeStyle": "solid",
-  "strokeWidth": 2,
-  "type": "rectangle",
-  "updated": 1,
-  "version": 8,
-  "width": 100,
-  "x": -100,
-  "y": -50,
-}
-`;
+exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] number of elements 1`] = `0`;
 
-exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] element 1 1`] = `
-{
-  "angle": 0,
-  "autoResize": true,
-  "backgroundColor": "transparent",
-  "boundElements": null,
-  "containerId": "id0",
-  "customData": undefined,
-  "fillStyle": "solid",
-  "fontFamily": 5,
-  "fontSize": 20,
-  "frameId": null,
-  "groupIds": [],
-  "height": 25,
-  "id": "id1",
-  "index": "a1",
-  "isDeleted": false,
-  "lineHeight": "1.25000",
-  "link": null,
-  "locked": false,
-  "opacity": 100,
-  "originalText": "ola",
-  "roughness": 1,
-  "roundness": null,
-  "strokeColor": "#1e1e1e",
-  "strokeStyle": "solid",
-  "strokeWidth": 2,
-  "text": "ola",
-  "textAlign": "center",
-  "type": "text",
-  "updated": 1,
-  "version": 8,
-  "verticalAlign": "middle",
-  "width": 30,
-  "x": -65,
-  "y": "-12.50000",
-}
-`;
+exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] number of renders 1`] = `2`;
 
-exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] element 2 1`] = `
-{
-  "angle": 0,
-  "backgroundColor": "transparent",
-  "boundElements": [
-    {
-      "id": "id13",
-      "type": "arrow",
-    },
-  ],
-  "customData": undefined,
-  "fillStyle": "solid",
-  "frameId": null,
-  "groupIds": [],
-  "height": 100,
-  "id": "id2",
-  "index": "a2",
-  "isDeleted": false,
-  "link": null,
-  "locked": false,
-  "opacity": 100,
-  "roughness": 1,
-  "roundness": null,
-  "strokeColor": "#1e1e1e",
-  "strokeStyle": "solid",
-  "strokeWidth": 2,
-  "type": "rectangle",
-  "updated": 1,
-  "version": 5,
-  "width": 100,
-  "x": 100,
-  "y": -50,
-}
-`;
+exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] redo stack 1`] = `[]`;
 
-exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] element 3 1`] = `
-{
-  "angle": 0,
-  "backgroundColor": "transparent",
-  "boundElements": null,
-  "customData": undefined,
-  "elbowed": false,
-  "endArrowhead": "arrow",
-  "endBinding": {
-    "elementId": "id2",
-    "focus": -0,
-    "gap": 1,
-  },
-  "fillStyle": "solid",
-  "frameId": null,
-  "groupIds": [],
-  "height": 0,
-  "id": "id13",
-  "index": "a3",
-  "isDeleted": false,
-  "lastCommittedPoint": null,
-  "link": null,
-  "locked": false,
-  "opacity": 100,
-  "points": [
-    [
-      0,
-      0,
-    ],
-    [
-      98,
-      0,
-    ],
-  ],
-  "roughness": 1,
-  "roundness": {
-    "type": 2,
-  },
-  "startArrowhead": null,
-  "startBinding": {
-    "elementId": "id0",
-    "focus": 0,
-    "gap": 1,
-  },
-  "strokeColor": "#1e1e1e",
-  "strokeStyle": "solid",
-  "strokeWidth": 2,
-  "type": "arrow",
-  "updated": 1,
-  "version": 11,
-  "width": 98,
-  "x": 1,
-  "y": 0,
-}
-`;
-
-exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] number of elements 1`] = `4`;
-
-exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] number of renders 1`] = `15`;
-
-exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] redo stack 1`] = `
-[
-  {
-    "appState": AppStateDelta {
-      "delta": Delta {
-        "deleted": {
-          "selectedElementIds": {
-            "id0": true,
-            "id2": true,
-          },
-        },
-        "inserted": {
-          "selectedElementIds": {},
-        },
-      },
-    },
-    "elements": {
-      "added": {},
-      "removed": {
-        "id0": {
-          "deleted": {
-            "isDeleted": false,
-            "version": 8,
-          },
-          "inserted": {
-            "isDeleted": true,
-            "version": 5,
-          },
-        },
-        "id1": {
-          "deleted": {
-            "isDeleted": false,
-            "version": 8,
-          },
-          "inserted": {
-            "isDeleted": true,
-            "version": 5,
-          },
-        },
-        "id2": {
-          "deleted": {
-            "isDeleted": false,
-            "version": 5,
-          },
-          "inserted": {
-            "isDeleted": true,
-            "version": 4,
-          },
-        },
-      },
-      "updated": {
-        "id13": {
-          "deleted": {
-            "endBinding": {
-              "elementId": "id2",
-              "focus": -0,
-              "gap": 1,
-            },
-            "startBinding": {
-              "elementId": "id0",
-              "focus": 0,
-              "gap": 1,
-            },
-            "version": 11,
-          },
-          "inserted": {
-            "endBinding": null,
-            "startBinding": null,
-            "version": 8,
-          },
-        },
-      },
-    },
-    "id": "id24",
-  },
-]
-`;
-
-exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] undo stack 1`] = `
-[
-  {
-    "appState": AppStateDelta {
-      "delta": Delta {
-        "deleted": {},
-        "inserted": {},
-      },
-    },
-    "elements": {
-      "added": {},
-      "removed": {
-        "id0": {
-          "deleted": {
-            "angle": 0,
-            "backgroundColor": "transparent",
-            "boundElements": null,
-            "customData": undefined,
-            "fillStyle": "solid",
-            "frameId": null,
-            "groupIds": [],
-            "height": 100,
-            "index": "a0",
-            "isDeleted": false,
-            "link": null,
-            "locked": false,
-            "opacity": 100,
-            "roughness": 1,
-            "roundness": null,
-            "strokeColor": "#1e1e1e",
-            "strokeStyle": "solid",
-            "strokeWidth": 2,
-            "type": "rectangle",
-            "version": 2,
-            "width": 100,
-            "x": -100,
-            "y": -50,
-          },
-          "inserted": {
-            "isDeleted": true,
-            "version": 1,
-          },
-        },
-        "id1": {
-          "deleted": {
-            "angle": 0,
-            "autoResize": true,
-            "backgroundColor": "transparent",
-            "boundElements": null,
-            "containerId": null,
-            "customData": undefined,
-            "fillStyle": "solid",
-            "fontFamily": 5,
-            "fontSize": 20,
-            "frameId": null,
-            "groupIds": [],
-            "height": 100,
-            "index": "a1",
-            "isDeleted": false,
-            "lineHeight": "1.25000",
-            "link": null,
-            "locked": false,
-            "opacity": 100,
-            "originalText": "ola",
-            "roughness": 1,
-            "roundness": null,
-            "strokeColor": "#1e1e1e",
-            "strokeStyle": "solid",
-            "strokeWidth": 2,
-            "text": "ola",
-            "textAlign": "left",
-            "type": "text",
-            "version": 2,
-            "verticalAlign": "top",
-            "width": 100,
-            "x": -200,
-            "y": -200,
-          },
-          "inserted": {
-            "isDeleted": true,
-            "version": 1,
-          },
-        },
-        "id2": {
-          "deleted": {
-            "angle": 0,
-            "backgroundColor": "transparent",
-            "boundElements": null,
-            "customData": undefined,
-            "fillStyle": "solid",
-            "frameId": null,
-            "groupIds": [],
-            "height": 100,
-            "index": "a2",
-            "isDeleted": false,
-            "link": null,
-            "locked": false,
-            "opacity": 100,
-            "roughness": 1,
-            "roundness": null,
-            "strokeColor": "#1e1e1e",
-            "strokeStyle": "solid",
-            "strokeWidth": 2,
-            "type": "rectangle",
-            "version": 2,
-            "width": 100,
-            "x": 100,
-            "y": -50,
-          },
-          "inserted": {
-            "isDeleted": true,
-            "version": 1,
-          },
-        },
-      },
-      "updated": {},
-    },
-    "id": "id4",
-  },
-  {
-    "appState": AppStateDelta {
-      "delta": Delta {
-        "deleted": {
-          "selectedElementIds": {
-            "id0": true,
-          },
-        },
-        "inserted": {
-          "selectedElementIds": {},
-        },
-      },
-    },
-    "elements": {
-      "added": {},
-      "removed": {},
-      "updated": {},
-    },
-    "id": "id7",
-  },
-  {
-    "appState": AppStateDelta {
-      "delta": Delta {
-        "deleted": {
-          "selectedElementIds": {
-            "id1": true,
-          },
-        },
-        "inserted": {
-          "selectedElementIds": {},
-        },
-      },
-    },
-    "elements": {
-      "added": {},
-      "removed": {},
-      "updated": {},
-    },
-    "id": "id10",
-  },
-  {
-    "appState": AppStateDelta {
-      "delta": Delta {
-        "deleted": {
-          "selectedElementIds": {},
-        },
-        "inserted": {
-          "selectedElementIds": {
-            "id1": true,
-          },
-        },
-      },
-    },
-    "elements": {
-      "added": {},
-      "removed": {},
-      "updated": {
-        "id0": {
-          "deleted": {
-            "boundElements": [
-              {
-                "id": "id1",
-                "type": "text",
-              },
-            ],
-            "version": 3,
-          },
-          "inserted": {
-            "boundElements": [],
-            "version": 2,
-          },
-        },
-        "id1": {
-          "deleted": {
-            "containerId": "id0",
-            "height": 25,
-            "textAlign": "center",
-            "version": 4,
-            "verticalAlign": "middle",
-            "width": 30,
-            "x": -65,
-            "y": "-12.50000",
-          },
-          "inserted": {
-            "containerId": null,
-            "height": 100,
-            "textAlign": "left",
-            "version": 2,
-            "verticalAlign": "top",
-            "width": 100,
-            "x": -200,
-            "y": -200,
-          },
-        },
-      },
-    },
-    "id": "id12",
-  },
-  {
-    "appState": AppStateDelta {
-      "delta": Delta {
-        "deleted": {
-          "selectedElementIds": {
-            "id13": true,
-          },
-          "selectedLinearElementId": "id13",
-        },
-        "inserted": {
-          "selectedElementIds": {
-            "id0": true,
-          },
-          "selectedLinearElementId": null,
-        },
-      },
-    },
-    "elements": {
-      "added": {},
-      "removed": {
-        "id13": {
-          "deleted": {
-            "angle": 0,
-            "backgroundColor": "transparent",
-            "boundElements": null,
-            "customData": undefined,
-            "elbowed": false,
-            "endArrowhead": "arrow",
-            "endBinding": {
-              "elementId": "id2",
-              "focus": -0,
-              "gap": 1,
-            },
-            "fillStyle": "solid",
-            "frameId": null,
-            "groupIds": [],
-            "height": 0,
-            "index": "a3",
-            "isDeleted": false,
-            "lastCommittedPoint": null,
-            "link": null,
-            "locked": false,
-            "opacity": 100,
-            "points": [
-              [
-                0,
-                0,
-              ],
-              [
-                100,
-                0,
-              ],
-            ],
-            "roughness": 1,
-            "roundness": {
-              "type": 2,
-            },
-            "startArrowhead": null,
-            "startBinding": {
-              "elementId": "id0",
-              "focus": 0,
-              "gap": 1,
-            },
-            "strokeColor": "#1e1e1e",
-            "strokeStyle": "solid",
-            "strokeWidth": 2,
-            "type": "arrow",
-            "version": 6,
-            "width": 100,
-            "x": 0,
-            "y": 0,
-          },
-          "inserted": {
-            "isDeleted": true,
-            "version": 5,
-          },
-        },
-      },
-      "updated": {
-        "id0": {
-          "deleted": {
-            "boundElements": [
-              {
-                "id": "id13",
-                "type": "arrow",
-              },
-            ],
-            "version": 4,
-          },
-          "inserted": {
-            "boundElements": [],
-            "version": 3,
-          },
-        },
-        "id2": {
-          "deleted": {
-            "boundElements": [
-              {
-                "id": "id13",
-                "type": "arrow",
-              },
-            ],
-            "version": 3,
-          },
-          "inserted": {
-            "boundElements": [],
-            "version": 2,
-          },
-        },
-      },
-    },
-    "id": "id15",
-  },
-  {
-    "appState": AppStateDelta {
-      "delta": Delta {
-        "deleted": {
-          "selectedElementIds": {
-            "id0": true,
-          },
-          "selectedLinearElementId": null,
-        },
-        "inserted": {
-          "selectedElementIds": {
-            "id13": true,
-          },
-          "selectedLinearElementId": "id13",
-        },
-      },
-    },
-    "elements": {
-      "added": {},
-      "removed": {},
-      "updated": {},
-    },
-    "id": "id18",
-  },
-  {
-    "appState": AppStateDelta {
-      "delta": Delta {
-        "deleted": {
-          "selectedElementIds": {
-            "id2": true,
-          },
-        },
-        "inserted": {
-          "selectedElementIds": {},
-        },
-      },
-    },
-    "elements": {
-      "added": {},
-      "removed": {},
-      "updated": {},
-    },
-    "id": "id21",
-  },
-]
-`;
+exports[`history > singleplayer undo/redo > should support bidirectional bindings > should unbind rectangles from arrow on deletion and rebind on undo > [end of test] undo stack 1`] = `[]`;
 
 exports[`history > singleplayer undo/redo > should support changes in elements' order > [end of test] appState 1`] = `
 {

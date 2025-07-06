@@ -114,7 +114,7 @@ export const SaveToActiveFile = () => {
 SaveToActiveFile.displayName = "SaveToActiveFile";
 
 export const SaveToFolder = () => {
-  const { t } = useI18n();
+  // const { t } = useI18n();
   const actionManager = useExcalidrawActionManager();
 
   if (!actionManager.isActionEnabled(actionSaveToFolder)) {
@@ -135,7 +135,7 @@ export const SaveToFolder = () => {
 SaveToFolder.displayName = "SaveToFolder";
 
 export const LoadFromFolder = () => {
-  const { t } = useI18n();
+  // const { t } = useI18n();
   const actionManager = useExcalidrawActionManager();
 
   if (!actionManager.isActionEnabled(actionLoadFromFolder)) {

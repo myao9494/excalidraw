@@ -173,7 +173,7 @@ export const generateSafeFileName = (name: string): string => {
 
   // 危険な文字のみを除去（日本語文字は保持）
   let safeName = name
-    .replace(/[<>:"/\\|?*\x00-\x1f\x7f]/g, "_") // 制御文字と危険文字のみ除去
+    .replace(/[<>:"/\\|?*]/g, "_") // 危険文字のみ除去
     .replace(/\s+/g, "_") // 連続する空白をアンダースコアに
     .replace(/^\./, "_") // 先頭のドットを除去
     .replace(/\.+$/, ""); // 末尾のドットを除去

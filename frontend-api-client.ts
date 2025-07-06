@@ -4,11 +4,11 @@
  */
 
 import {
-  FileLoadParams,
-  FileListParams,
-  FileDeleteParams,
-  DirectoryCreateParams,
-  FileInfoParams,
+  // FileLoadParams,
+  // FileListParams,
+  // FileDeleteParams,
+  // DirectoryCreateParams,
+  // FileInfoParams,
   API_ENDPOINTS,
   HTTP_STATUS,
   ApiClientError,
@@ -250,7 +250,7 @@ export class ExcalidrawApiClient {
   ): string {
     // 危険な文字を除去
     const safeName = baseName
-      .replace(/[^\w\s\-\.]/g, "") // 英数字、スペース、ハイフン、ドット以外を除去
+      .replace(/[^\w\s\-.]/g, "") // 英数字、スペース、ハイフン、ドット以外を除去
       .replace(/\s+/g, "_") // スペースをアンダースコアに変換
       .toLowerCase();
 
