@@ -8,6 +8,8 @@ import {
   actionClearCanvas,
   actionLoadScene,
   actionSaveToActiveFile,
+  actionSaveToFolder,
+  actionLoadFromFolder,
   actionShortcuts,
   actionToggleSearchMenu,
   actionToggleTheme,
@@ -35,6 +37,7 @@ import {
   DeviceDesktopIcon,
   ExportIcon,
   ExportImageIcon,
+  folderIcon,
   HelpIcon,
   LoadIcon,
   MoonIcon,
@@ -109,6 +112,48 @@ export const SaveToActiveFile = () => {
   );
 };
 SaveToActiveFile.displayName = "SaveToActiveFile";
+
+export const SaveToFolder = () => {
+  const { t } = useI18n();
+  const actionManager = useExcalidrawActionManager();
+
+  if (!actionManager.isActionEnabled(actionSaveToFolder)) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem
+      icon={folderIcon}
+      data-testid="save-to-folder-button"
+      onSelect={() => actionManager.executeAction(actionSaveToFolder)}
+      aria-label="フォルダに保存"
+    >
+      フォルダに保存
+    </DropdownMenuItem>
+  );
+};
+SaveToFolder.displayName = "SaveToFolder";
+
+export const LoadFromFolder = () => {
+  const { t } = useI18n();
+  const actionManager = useExcalidrawActionManager();
+
+  if (!actionManager.isActionEnabled(actionLoadFromFolder)) {
+    return null;
+  }
+
+  return (
+    <DropdownMenuItem
+      icon={folderIcon}
+      data-testid="load-from-folder-button"
+      onSelect={() => actionManager.executeAction(actionLoadFromFolder)}
+      aria-label="フォルダから読み込み"
+    >
+      フォルダから読み込み
+    </DropdownMenuItem>
+  );
+};
+LoadFromFolder.displayName = "LoadFromFolder";
 
 export const SaveAsImage = () => {
   const setAppState = useExcalidrawSetAppState();

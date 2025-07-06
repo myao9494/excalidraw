@@ -1,0 +1,209 @@
+/**
+ * SaveToFolderDialog スタイル
+ */
+
+.save-to-folder-dialog {
+  max-width: 600px;
+  max-height: 80vh;
+  width: 90vw;
+
+  .dialog-header {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+
+    h2 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      line-height: 1.4;
+    }
+  }
+
+  .dialog-content {
+    margin-bottom: 24px;
+
+    .folder-section,
+    .filename-section {
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--color-text);
+        font-size: 14px;
+      }
+    }
+
+    .filename-section {
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        font-size: 14px;
+        font-family: var(--ui-font);
+        background-color: var(--color-surface);
+        color: var(--color-text);
+        transition: border-color 0.2s ease;
+
+        &:focus {
+          outline: none;
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 3px var(--color-primary-muted);
+        }
+
+        &::placeholder {
+          color: var(--color-text-secondary);
+        }
+      }
+
+      .filename-hint {
+        display: block;
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        font-style: italic;
+      }
+    }
+
+    .current-path {
+      padding: 12px;
+      background-color: var(--color-surface-low);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--color-text);
+      word-break: break-all;
+
+      strong {
+        color: var(--color-text);
+      }
+    }
+
+    .error-message {
+      padding: 12px;
+      background-color: var(--color-error-muted);
+      border: 1px solid var(--color-error);
+      border-radius: 6px;
+      color: var(--color-error);
+      font-size: 14px;
+      margin-top: 12px;
+    }
+  }
+
+  .dialog-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+// ダークモード対応
+[data-theme="dark"] .save-to-folder-dialog {
+  --color-surface: var(--color-surface-dark);
+  --color-surface-low: var(--color-surface-low-dark);
+  --color-border: var(--color-border-dark);
+  --color-text: var(--color-text-dark);
+  --color-text-secondary: var(--color-text-secondary-dark);
+  --color-primary: var(--color-primary-dark);
+  --color-primary-muted: var(--color-primary-muted-dark);
+  --color-error: var(--color-error-dark);
+  --color-error-muted: var(--color-error-muted-dark);
+}
+
+// レスポンシブ対応
+@media (max-width: 768px) {
+  .save-to-folder-dialog {
+    width: 95vw;
+    max-width: none;
+
+    .dialog-header {
+      h2 {
+        font-size: 18px;
+      }
+
+      p {
+        font-size: 13px;
+      }
+    }
+
+    .dialog-content {
+      .filename-section input {
+        padding: 10px;
+        font-size: 16px; // iOS対応：ズームを防ぐ
+      }
+
+      .current-path {
+        padding: 10px;
+        font-size: 13px;
+      }
+    }
+
+    .dialog-footer {
+      gap: 8px;
+    }
+  }
+}
+
+// 高コントラストモード対応
+@media (prefers-contrast: high) {
+  .save-to-folder-dialog {
+    .dialog-header {
+      border-bottom-width: 2px;
+    }
+
+    .dialog-footer {
+      border-top-width: 2px;
+    }
+
+    .dialog-content {
+      .filename-section input {
+        border-width: 2px;
+
+        &:focus {
+          border-width: 2px;
+          box-shadow: 0 0 0 3px var(--color-primary);
+        }
+      }
+
+      .current-path,
+      .error-message {
+        border-width: 2px;
+      }
+    }
+  }
+}
+
+// アニメーション設定
+@media (prefers-reduced-motion: no-preference) {
+  .save-to-folder-dialog {
+    .dialog-content .filename-section input {
+      transition: all 0.2s ease;
+    }
+  }
+}
+
+// 印刷スタイル
+@media print {
+  .save-to-folder-dialog {
+    border: 2px solid black;
+    background: white;
+    color: black;
+
+    .dialog-header,
+    .dialog-footer {
+      border-color: black;
+    }
+  }
+}

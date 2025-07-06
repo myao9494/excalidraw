@@ -1,6 +1,6 @@
 # Excalidraw + FastAPI セットアップガイド
 
-このプロジェクトは、フォルダ管理機能を持つExcalidrawのフォーク版です。
+このプロジェクトは、フォルダ管理機能を持つ Excalidraw のフォーク版です。
 
 ## 📁 プロジェクト構造
 
@@ -36,7 +36,8 @@ source backend/venv/bin/activate
 python run_dev.py
 ```
 
-バックエンドは以下のURLで利用可能になります：
+バックエンドは以下の URL で利用可能になります：
+
 - API: http://localhost:8000
 - API ドキュメント: http://localhost:8000/docs
 
@@ -52,7 +53,7 @@ yarn dev
 
 ## 📋 API エンドポイント
 
-### ファイル管理API
+### ファイル管理 API
 
 - `GET /api/v1/files/?folder_path={path}` - ファイル一覧取得
 - `GET /api/v1/files/load/?file_path={path}` - ファイル読み込み
@@ -79,6 +80,7 @@ curl -X POST "http://localhost:8000/api/v1/files/save/" \
 ### 依存関係
 
 **バックエンド (Python 3.12+):**
+
 - FastAPI
 - uvicorn
 - aiofiles
@@ -86,7 +88,8 @@ curl -X POST "http://localhost:8000/api/v1/files/save/" \
 - pydantic
 
 **フロントエンド:**
-- 既存のExcalidraw依存関係
+
+- 既存の Excalidraw 依存関係
 
 ### 継続的アップデート
 

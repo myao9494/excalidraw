@@ -17,9 +17,13 @@ router = APIRouter(
 )
 
 # FileManagerインスタンスを取得する依存関数
-def get_file_manager(base_path: Optional[str] = None) -> FileManager:
+def get_file_manager(
+    base_folder: Optional[str] = Query(None, description="ベースフォルダパス")
+) -> FileManager:
     """FileManagerインスタンスを取得"""
-    return FileManager(base_path)
+    # デフォルトは現在のディレクトリ、base_folderが指定されていればそれを使用
+    work_dir = base_folder if base_folder else None
+    return FileManager(work_dir)
 
 
 @router.get("/", response_model=DirectoryListing)

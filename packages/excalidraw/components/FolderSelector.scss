@@ -1,0 +1,265 @@
+/**
+ * FolderSelector スタイル
+ */
+
+.folder-selector {
+  background-color: var(--color-surface-low);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px;
+  font-family: var(--ui-font);
+
+  .folder-selector-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+  }
+
+  .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 8px;
+    background-color: var(--color-surface-lower);
+    border-radius: 4px;
+    font-size: 14px;
+
+    .breadcrumb-item {
+      background: none;
+      border: none;
+      color: var(--color-primary);
+      cursor: pointer;
+      text-decoration: none;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: var(--color-surface-low);
+      }
+
+      &:focus {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+    }
+
+    .breadcrumb-separator {
+      margin: 0 4px;
+      color: var(--color-text-secondary);
+    }
+  }
+
+  .folder-list {
+    overflow-y: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background-color: var(--color-surface);
+
+    .loading-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+      gap: 8px;
+      color: var(--color-text-secondary);
+    }
+
+    .error-message {
+      padding: 16px;
+      color: var(--color-error);
+      background-color: var(--color-error-muted);
+      border: 1px solid var(--color-error);
+      border-radius: 4px;
+      margin: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .empty-state {
+      padding: 32px;
+      text-align: center;
+      color: var(--color-text-secondary);
+      font-style: italic;
+    }
+
+    .folder-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-border);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      gap: 12px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: var(--color-surface-low);
+      }
+
+      &:focus {
+        outline: 2px solid var(--color-primary);
+        outline-offset: -2px;
+        background-color: var(--color-surface-low);
+      }
+
+      &.selected {
+        background-color: var(--color-primary-muted);
+        border-left: 4px solid var(--color-primary);
+      }
+
+      .folder-icon {
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+
+      .folder-name {
+        flex: 1;
+        font-weight: 500;
+        color: var(--color-text);
+      }
+
+      .folder-date {
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  // ダイアログスタイル
+  .dialog-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+}
+
+// ダークモード対応
+[data-theme="dark"] .folder-selector {
+  --color-surface: var(--color-surface-dark);
+  --color-surface-low: var(--color-surface-low-dark);
+  --color-surface-lower: var(--color-surface-lower-dark);
+  --color-border: var(--color-border-dark);
+  --color-text: var(--color-text-dark);
+  --color-text-secondary: var(--color-text-secondary-dark);
+  --color-primary: var(--color-primary-dark);
+  --color-primary-muted: var(--color-primary-muted-dark);
+  --color-error: var(--color-error-dark);
+  --color-error-muted: var(--color-error-muted-dark);
+}
+
+// レスポンシブ対応
+@media (max-width: 768px) {
+  .folder-selector {
+    padding: 12px;
+
+    .folder-selector-header {
+      h3 {
+        font-size: 14px;
+      }
+    }
+
+    .breadcrumb-nav {
+      font-size: 12px;
+
+      .breadcrumb-item {
+        padding: 2px 4px;
+      }
+    }
+
+    .folder-list {
+      .folder-item {
+        padding: 10px 12px;
+        gap: 8px;
+
+        .folder-icon {
+          font-size: 14px;
+        }
+
+        .folder-name {
+          font-size: 14px;
+        }
+
+        .folder-date {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}
+
+// 高コントラストモード対応
+@media (prefers-contrast: high) {
+  .folder-selector {
+    border-width: 2px;
+
+    .folder-list {
+      border-width: 2px;
+
+      .folder-item {
+        border-bottom-width: 2px;
+
+        &.selected {
+          border-left-width: 6px;
+        }
+
+        &:focus {
+          outline-width: 3px;
+        }
+      }
+    }
+
+    .breadcrumb-nav {
+      .breadcrumb-item {
+        &:focus {
+          outline-width: 3px;
+        }
+      }
+    }
+  }
+}
+
+// アニメーション設定
+@media (prefers-reduced-motion: no-preference) {
+  .folder-selector {
+    .folder-item {
+      transition: all 0.2s ease;
+    }
+
+    .breadcrumb-nav .breadcrumb-item {
+      transition: all 0.2s ease;
+    }
+  }
+}
+
+// 印刷スタイル
+@media print {
+  .folder-selector {
+    border: 1px solid black;
+    background: white;
+
+    .folder-list {
+      max-height: none;
+
+      .folder-item {
+        background: white;
+        color: black;
+      }
+    }
+  }
+}

@@ -290,6 +290,24 @@ export { DefaultSidebar } from "./components/DefaultSidebar";
 export { TTDDialog } from "./components/TTDDialog/TTDDialog";
 export { TTDDialogTrigger } from "./components/TTDDialog/TTDDialogTrigger";
 
+// フォルダ機能と自動保存
+export { AutoSaveWrapper } from "./components/AutoSaveWrapper";
+export { useAutoSave } from "./hooks/useAutoSave";
+export {
+  getUrlFileParams,
+  updateUrlFileParams,
+  getFullFilePath,
+  splitFilePath,
+  watchUrlParams,
+  generateSafeFileName,
+  normalizePath,
+} from "./utils/urlParams";
+export { FileSystemManager } from "./data/fileSystemManager";
+export {
+  performSaveToFolder,
+  performLoadFromFolder,
+} from "./actions/actionFolderSave";
+
 export { zoomToFitBounds } from "./actions/actionCanvas";
 export { convertToExcalidrawElements } from "./data/transform";
 export { getCommonBounds, getVisibleSceneBounds } from "@excalidraw/element";

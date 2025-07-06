@@ -1,0 +1,344 @@
+/**
+ * FileBrowser スタイル
+ */
+
+.file-browser {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-family: var(--ui-font);
+
+  .file-list {
+    overflow-y: auto;
+    padding: 8px;
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+      color: var(--color-text-secondary);
+      text-align: center;
+
+      .search-hint {
+        margin-top: 8px;
+        font-size: 14px;
+        font-style: italic;
+      }
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      gap: 12px;
+      margin-bottom: 4px;
+
+      &:hover {
+        background-color: var(--color-surface-low);
+      }
+
+      &:focus {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+        background-color: var(--color-surface-low);
+      }
+
+      &.folder {
+        .file-icon {
+          color: var(--color-accent);
+        }
+      }
+
+      &.file {
+        .file-icon {
+          color: var(--color-text-secondary);
+        }
+      }
+
+      .file-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+        width: 24px;
+        text-align: center;
+      }
+
+      .file-info {
+        flex: 1;
+        min-width: 0;
+
+        .file-name {
+          display: block;
+          font-weight: 500;
+          color: var(--color-text);
+          font-size: 14px;
+          line-height: 1.4;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .file-meta {
+          display: flex;
+          gap: 12px;
+          margin-top: 2px;
+
+          .file-size,
+          .file-date {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+          }
+
+          .file-size {
+            font-weight: 500;
+          }
+        }
+      }
+
+      .delete-button {
+        background: none;
+        border: none;
+        padding: 6px;
+        border-radius: 4px;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.2s ease;
+        font-size: 16px;
+        color: var(--color-error);
+        flex-shrink: 0;
+
+        &:hover {
+          background-color: var(--color-error-muted);
+          transform: scale(1.1);
+        }
+
+        &:focus {
+          outline: 2px solid var(--color-error);
+          outline-offset: 2px;
+          opacity: 1;
+        }
+      }
+
+      &:hover .delete-button {
+        opacity: 1;
+      }
+    }
+  }
+
+  // ダイアログスタイル
+  .dialog-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  .warning-text {
+    color: var(--color-warning);
+    font-size: 14px;
+    margin: 8px 0;
+    font-style: italic;
+  }
+}
+
+// グリッドレイアウト（オプション）
+.file-browser.grid-layout {
+  .file-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    padding: 16px;
+
+    .file-item {
+      flex-direction: column;
+      text-align: center;
+      padding: 16px;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-surface);
+
+      .file-icon {
+        font-size: 32px;
+        margin-bottom: 8px;
+      }
+
+      .file-info {
+        .file-name {
+          font-size: 13px;
+          line-height: 1.3;
+          max-height: 2.6em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          white-space: normal;
+        }
+
+        .file-meta {
+          justify-content: center;
+          margin-top: 6px;
+        }
+      }
+
+      .delete-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+      }
+    }
+  }
+}
+
+// ダークモード対応
+[data-theme="dark"] .file-browser {
+  --color-surface: var(--color-surface-dark);
+  --color-surface-low: var(--color-surface-low-dark);
+  --color-border: var(--color-border-dark);
+  --color-text: var(--color-text-dark);
+  --color-text-secondary: var(--color-text-secondary-dark);
+  --color-primary: var(--color-primary-dark);
+  --color-accent: var(--color-accent-dark);
+  --color-error: var(--color-error-dark);
+  --color-error-muted: var(--color-error-muted-dark);
+  --color-warning: var(--color-warning-dark);
+}
+
+// レスポンシブ対応
+@media (max-width: 768px) {
+  .file-browser {
+    .file-list {
+      padding: 4px;
+
+      .file-item {
+        padding: 10px 8px;
+        gap: 8px;
+
+        .file-icon {
+          font-size: 18px;
+          width: 20px;
+        }
+
+        .file-info {
+          .file-name {
+            font-size: 13px;
+          }
+
+          .file-meta {
+            gap: 8px;
+
+            .file-size,
+            .file-date {
+              font-size: 11px;
+            }
+          }
+        }
+
+        .delete-button {
+          font-size: 14px;
+          padding: 4px;
+        }
+      }
+    }
+
+    &.grid-layout {
+      .file-list {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 8px;
+        padding: 8px;
+
+        .file-item {
+          padding: 12px 8px;
+
+          .file-icon {
+            font-size: 24px;
+          }
+
+          .file-info .file-name {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 高コントラストモード対応
+@media (prefers-contrast: high) {
+  .file-browser {
+    border-width: 2px;
+
+    .file-list {
+      .file-item {
+        border: 1px solid var(--color-border);
+
+        &:focus {
+          outline-width: 3px;
+        }
+
+        .delete-button {
+          border: 1px solid var(--color-error);
+
+          &:focus {
+            outline-width: 3px;
+          }
+        }
+      }
+    }
+
+    &.grid-layout {
+      .file-list .file-item {
+        border-width: 2px;
+      }
+    }
+  }
+}
+
+// アニメーション設定
+@media (prefers-reduced-motion: no-preference) {
+  .file-browser {
+    .file-list .file-item {
+      transition: all 0.2s ease;
+
+      .delete-button {
+        transition: all 0.2s ease;
+      }
+    }
+  }
+}
+
+// 印刷スタイル
+@media print {
+  .file-browser {
+    border: 1px solid black;
+    background: white;
+
+    .file-list {
+      max-height: none;
+
+      .file-item {
+        background: white;
+        color: black;
+        border-bottom: 1px solid #ccc;
+
+        .delete-button {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+// タッチデバイス対応
+@media (hover: none) {
+  .file-browser {
+    .file-list .file-item {
+      .delete-button {
+        opacity: 1; // タッチデバイスでは常に表示
+      }
+    }
+  }
+}

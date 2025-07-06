@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Base Folder Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f5f5f5;
+      }
+      .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .example {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 4px;
+        margin: 10px 0;
+        border-left: 4px solid #007bff;
+      }
+      .code {
+        font-family: "Courier New", monospace;
+        background-color: #e9ecef;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+      .test-link {
+        display: inline-block;
+        margin: 5px;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+      .test-link:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Base Folder URL パラメータ テスト</h1>
+
+      <h2>使用方法</h2>
+      <p>
+        URLパラメータに
+        <code class="code">baseFolder</code>
+        を指定することで、ファイルの基準ディレクトリを設定できます。
+      </p>
+
+      <div class="example">
+        <h3>基本的な使用例</h3>
+        <p>
+          <code class="code"
+            >http://localhost:3000?baseFolder=/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao</code
+          >
+        </p>
+      </div>
+
+      <div class="example">
+        <h3>フォルダとファイルを同時に指定</h3>
+        <p>
+          <code class="code"
+            >http://localhost:3000?baseFolder=/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao&folder=test&file=sample.excalidraw</code
+          >
+        </p>
+      </div>
+
+      <div class="example">
+        <h3>完全なファイルパスを指定</h3>
+        <p><strong>Unix/macOS:</strong></p>
+        <p>
+          <code class="code"
+            >http://localhost:3000?filepath=/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao/sample.excalidraw</code
+          >
+        </p>
+        <p><strong>Windows:</strong></p>
+        <p>
+          <code class="code"
+            >http://localhost:3000?filepath=C:\Users\sudoupousei\000_work\web_file_manager\excalidraw_myao\sample.excalidraw</code
+          >
+        </p>
+        <p><strong>日本語パス (Windows):</strong></p>
+        <p>
+          <code class="code"
+            >http://localhost:3000?filepath=C:\Users\田中太郎\ドキュメント\図面\設計書.excalidraw</code
+          >
+        </p>
+        <p><strong>日本語パス (macOS):</strong></p>
+        <p>
+          <code class="code"
+            >http://localhost:3000?filepath=/Users/田中太郎/デスクトップ/プロジェクト/図面.excalidraw</code
+          >
+        </p>
+      </div>
+
+      <h2>テスト用リンク</h2>
+      <p>以下のリンクをクリックしてテストできます：</p>
+
+      <a
+        href="/?baseFolder=/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao"
+        class="test-link"
+      >
+        基本的なベースフォルダ設定
+      </a>
+
+      <a
+        href="/?baseFolder=/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao&folder=backend"
+        class="test-link"
+      >
+        ベースフォルダ + サブフォルダ
+      </a>
+
+      <a
+        href="/?baseFolder=/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao&folder=backend&file=my-drawing.excalidraw"
+        class="test-link"
+      >
+        ベースフォルダ + ファイル指定
+      </a>
+
+      <a
+        href="/?filepath=/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao/sample.excalidraw"
+        class="test-link"
+      >
+        完全ファイルパス指定 (Unix)
+      </a>
+
+      <a
+        href="/?filepath=C:\Users\sudoupousei\000_work\web_file_manager\excalidraw_myao\sample.excalidraw"
+        class="test-link"
+      >
+        完全ファイルパス指定 (Windows)
+      </a>
+
+      <a
+        href="/?filepath=/Users/田中太郎/デスクトップ/図面.excalidraw"
+        class="test-link"
+      >
+        日本語パス指定
+      </a>
+
+      <h2>動作確認</h2>
+      <p>
+        上記のリンクをクリックすると、指定したベースフォルダを基準にしてファイルシステムが動作します。
+      </p>
+      <p>
+        開発者コンソールでネットワークタブを確認すると、<code class="code"
+          >base_folder</code
+        >
+        パラメータが API リクエストに含まれていることが確認できます。
+      </p>
+
+      <h2>API 呼び出し例</h2>
+      <div class="example">
+        <h3>ファイル一覧取得</h3>
+        <p>
+          <code class="code"
+            >GET
+            /api/v1/files/?base_folder=/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao</code
+          >
+        </p>
+      </div>
+
+      <div class="example">
+        <h3>ファイル保存</h3>
+        <p>
+          <code class="code"
+            >POST
+            /api/v1/files/save/?base_folder=/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao</code
+          >
+        </p>
+      </div>
+
+      <script>
+        // 現在のURLパラメータを表示
+        const urlParams = new URLSearchParams(window.location.search);
+        const baseFolder = urlParams.get("baseFolder");
+        const folder = urlParams.get("folder");
+        const file = urlParams.get("file");
+        const filepath = urlParams.get("filepath");
+
+        if (baseFolder || folder || file || filepath) {
+          const info = document.createElement("div");
+          info.className = "example";
+          info.innerHTML =
+            "<h3>現在の設定</h3>" +
+            (baseFolder
+              ? `<p>ベースフォルダ: <code class="code">${baseFolder}</code></p>`
+              : "") +
+            (folder
+              ? `<p>フォルダ: <code class="code">${folder}</code></p>`
+              : "") +
+            (file ? `<p>ファイル: <code class="code">${file}</code></p>` : "") +
+            (filepath
+              ? `<p>完全ファイルパス: <code class="code">${filepath}</code></p>`
+              : "");
+          document.body.appendChild(info);
+        }
+      </script>
+    </div>
+  </body>
+</html>

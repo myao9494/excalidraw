@@ -10,6 +10,7 @@ from models.schemas import (
     FileInfo, DirectoryListing, FileLoadResponse, FileSaveResponse,
     FileDeleteResponse, ErrorResponse
 )
+from services.backup_manager import BackupManager, BackupConfig
 
 logger = logging.getLogger(__name__)
 
@@ -17,15 +18,17 @@ logger = logging.getLogger(__name__)
 class FileManager:
     """ファイル管理クラス"""
     
-    def __init__(self, base_path: Optional[str] = None):
+    def __init__(self, base_path: Optional[str] = None, backup_config: Optional[BackupConfig] = None):
         """
         初期化
         
         Args:
             base_path: ベースパス（指定されない場合は現在のディレクトリ）
+            backup_config: バックアップ設定
         """
         self.base_path = Path(base_path) if base_path else Path.cwd()
         self.allowed_extensions = {'.excalidraw'}
+        self.backup_manager = BackupManager(str(self.base_path), backup_config)
         
     def _is_safe_path(self, path: str) -> bool:
         """
@@ -233,9 +236,10 @@ class FileManager:
             target_path.parent.mkdir(parents=True, exist_ok=True)
         
         try:
-            async with aiofiles.open(target_path, 'w', encoding='utf-8') as f:
-                await f.write(content)
-                
+            # バックアップ機能を使用してファイルを保存
+            relative_path = target_path.relative_to(self.base_path)
+            self.backup_manager.save_with_backup(str(relative_path), content)
+            
             file_info = self._get_file_info(target_path)
             
             return FileSaveResponse(
@@ -330,3 +334,63 @@ class FileManager:
             str: 絶対パス
         """
         return str((self.base_path / relative_path).resolve())
+    
+    def update_backup_config(self, config: BackupConfig) -> None:
+        """
+        バックアップ設定を更新
+        
+        Args:
+            config: 新しいバックアップ設定
+        """
+        self.backup_manager.update_config(config)
+    
+    def get_backup_info(self, file_path: str) -> dict:
+        """
+        バックアップ情報を取得
+        
+        Args:
+            file_path: ファイルパス
+            
+        Returns:
+            dict: バックアップ情報
+        """
+        # base_pathからの相対パスとして解釈
+        if Path(file_path).is_absolute():
+            target_path = Path(file_path)
+        else:
+            target_path = self.base_path / file_path
+        
+        relative_path = target_path.relative_to(self.base_path)
+        return self.backup_manager.get_backup_info(str(relative_path))
+    
+    def restore_from_backup(self, file_path: str, backup_filename: str) -> bool:
+        """
+        バックアップからファイルを復元
+        
+        Args:
+            file_path: 復元先ファイルパス
+            backup_filename: バックアップファイル名
+            
+        Returns:
+            bool: 復元成功かどうか
+        """
+        # base_pathからの相対パスとして解釈
+        if Path(file_path).is_absolute():
+            target_path = Path(file_path)
+        else:
+            target_path = self.base_path / file_path
+        
+        relative_path = target_path.relative_to(self.base_path)
+        return self.backup_manager.restore_from_backup(str(relative_path), backup_filename)
+    
+    def delete_backup(self, backup_filename: str) -> bool:
+        """
+        バックアップファイルを削除
+        
+        Args:
+            backup_filename: バックアップファイル名
+            
+        Returns:
+            bool: 削除成功かどうか
+        """
+        return self.backup_manager.delete_backup(backup_filename)

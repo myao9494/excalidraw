@@ -89,8 +89,7 @@ INFO:     Uvicorn running on http://localhost:8000 (Press CTRL+C to quit)
 3. **Try it out** をクリック
 4. Request body に以下を入力:
 
-base_pathを以下にして実行
-/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao
+base_path を以下にして実行 /Users/sudoupousei/000_work/web_file_manager/excalidraw_myao
 
 ```json
 {
@@ -128,9 +127,7 @@ base_pathを以下にして実行
 3. **file_path** パラメータに `test_drawing.excalidraw` を入力
 4. **Execute** をクリック
 
-base_pathを以下にして実行
-/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao
-
+base_path を以下にして実行 /Users/sudoupousei/000_work/web_file_manager/excalidraw_myao
 
 #### 期待するレスポンス
 
@@ -158,9 +155,7 @@ base_pathを以下にして実行
 3. **file_path** パラメータに `test_drawing.excalidraw` を入力
 4. **Execute** をクリック
 
-base_pathを以下にして実行
-/Users/sudoupousei/000_work/web_file_manager/excalidraw_myao
-
+base_path を以下にして実行 /Users/sudoupousei/000_work/web_file_manager/excalidraw_myao
 
 #### 期待するレスポンス
 

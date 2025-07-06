@@ -1,10 +1,10 @@
 # Excalidraw File Manager Backend
 
-Excalidrawのフォルダ指定機能を実現するFastAPIバックエンドです。
+Excalidraw のフォルダ指定機能を実現する FastAPI バックエンドです。
 
 ## 概要
 
-このバックエンドは、Excalidrawファイル（.excalidraw）の管理機能を提供します：
+このバックエンドは、Excalidraw ファイル（.excalidraw）の管理機能を提供します：
 
 - ファイルの保存・読み込み
 - ディレクトリ一覧の取得
@@ -15,12 +15,14 @@ Excalidrawのフォルダ指定機能を実現するFastAPIバックエンドで
 ## 主要機能
 
 ### セキュリティ機能
+
 - パストラバーサル攻撃の防止
 - 危険なパス文字の検出
-- .excalidrawファイルのみサポート
-- JSONフォーマットの検証
+- .excalidraw ファイルのみサポート
+- JSON フォーマットの検証
 
 ### API エンドポイント
+
 - `GET /api/v1/files/` - ファイル一覧取得
 - `GET /api/v1/files/load/` - ファイル読み込み
 - `POST /api/v1/files/save/` - ファイル保存
@@ -49,7 +51,7 @@ uvicorn main:app --reload --host localhost --port 8000
 
 ### 3. API ドキュメントの確認
 
-サーバー起動後、以下のURLでAPIドキュメントを確認できます：
+サーバー起動後、以下の URL で API ドキュメントを確認できます：
 
 - Swagger UI: http://localhost:8000/api/docs
 - ReDoc: http://localhost:8000/api/redoc
@@ -123,22 +125,24 @@ curl "http://localhost:8000/api/v1/files/?directory_path=/path/to/directory"
 
 - セキュリティのため、`.excalidraw`ファイルのみサポートされています
 - パストラバーサル攻撃を防ぐため、危険なパス文字は拒否されます
-- ファイル内容はJSONフォーマットである必要があります
-- CORS設定は開発用のため、本番環境では適切に設定してください
+- ファイル内容は JSON フォーマットである必要があります
+- CORS 設定は開発用のため、本番環境では適切に設定してください
 
 ## トラブルシューティング
 
 ### よくある問題
 
 1. **ファイルが見つからない**
+
    - ファイルパスが正しいか確認
    - 読み取り権限があるか確認
 
 2. **不正なパスエラー**
+
    - 危険なパス文字（`..`, `~`, `$`等）が含まれていないか確認
 
-3. **JSONエラー**
-   - ファイル内容が正しいJSON形式か確認
+3. **JSON エラー**
+   - ファイル内容が正しい JSON 形式か確認
 
 ### ログ確認
 
