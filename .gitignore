@@ -27,4 +27,4 @@ dev-dist
 html
 meta*.json
 .claude
-backend/
+*.pyc
