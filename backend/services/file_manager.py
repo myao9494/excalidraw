@@ -30,34 +30,149 @@ class FileManager:
         self.allowed_extensions = {'.excalidraw'}
         self.backup_manager = BackupManager(str(self.base_path), backup_config)
         
-    def _is_safe_path(self, path: str) -> bool:
+    def _normalize_path(self, path: str) -> str:
         """
-        安全なパスかどうかチェック
+        パスを正規化（URLデコード対応）
+        
+        Args:
+            path: 正規化するパス
+            
+        Returns:
+            str: 正規化されたパス
+        """
+        import urllib.parse
+        
+        # URLエンコードされている場合はデコード
+        if '%' in path:
+            try:
+                # 一度だけデコードを試行
+                decoded = urllib.parse.unquote(path)
+                # デコード結果が元と異なる場合のみ使用
+                if decoded != path:
+                    path = decoded
+            except Exception:
+                # デコードに失敗した場合は元のパスを使用
+                pass
+        
+        return path
+
+    def _sanitize_path(self, path: str) -> str:
+        """
+        パスをサニタイズ（ログ出力用）
+        
+        Args:
+            path: サニタイズするパス
+            
+        Returns:
+            str: サニタイズされたパス
+        """
+        # URLエンコードされた文字を制限
+        if '%' in path and len(path) > 50:
+            return f"[長すぎるパス: {len(path)}文字]"
+        
+        # 連続する%を制限
+        if '%%' in path:
+            return f"[不正なエンコード: {path[:20]}...]"
+            
+        return path
+
+    def _is_windows_path(self, path: str) -> bool:
+        """
+        Windowsパスかどうか判定
         
         Args:
             path: チェックするパス
             
         Returns:
+            bool: Windowsパスの場合True
+        """
+        # Windowsパスの特徴: C:\ または \\server\share で始まる
+        return (len(path) >= 3 and path[1:3] == ':\\') or path.startswith('\\\\')
+
+    def _is_safe_path(self, path: str, base_folder: Optional[str] = None) -> bool:
+        """
+        安全なパスかどうかチェック
+        
+        Args:
+            path: チェックするパス
+            base_folder: ベースフォルダ（指定された場合はそれを基準とする）
+            
+        Returns:
             bool: 安全なパスの場合True
         """
         try:
-            # 絶対パスに変換
-            abs_path = Path(path).resolve()
+            # パスを正規化（URLデコード対応）
+            normalized_path = self._normalize_path(path)
             
-            # ベースパス外へのアクセスを防ぐ
-            if self.base_path.resolve() not in abs_path.parents and abs_path != self.base_path.resolve():
-                return False
+            # ベースフォルダが指定された場合はそれを使用
+            if base_folder:
+                normalized_base_folder = self._normalize_path(base_folder)
                 
-            # 危険なパターンチェック
-            dangerous_patterns = ['..', '~', '$', '`', '|', '&', ';']
-            for pattern in dangerous_patterns:
-                if pattern in str(abs_path):
+                # Windowsパスの場合は特別処理
+                if self._is_windows_path(normalized_base_folder):
+                    # Unix系OSでWindowsパスを処理する場合
+                    # 文字列ベースでパス検証を行う
+                    if not normalized_path:
+                        # 空の場合はbase_folderそのもの
+                        target_path_str = normalized_base_folder
+                    elif self._is_windows_path(normalized_path):
+                        # 絶対パスの場合はそのまま使用
+                        target_path_str = normalized_path
+                    else:
+                        # 相対パスの場合はbase_folderと結合
+                        target_path_str = normalized_base_folder.rstrip('\\') + '\\' + normalized_path
+                    
+                    # 文字列ベースの安全性チェック
+                    if not target_path_str.startswith(normalized_base_folder):
+                        logger.warning(f"不正なパスアクセス試行: {self._sanitize_path(path)}")
+                        return False
+                        
+                    # 危険なパターンチェック
+                    dangerous_patterns = ['..', '~', '$', '`', '|', '&', ';']
+                    for pattern in dangerous_patterns:
+                        if pattern in target_path_str:
+                            logger.warning(f"危険なパターン検出: {self._sanitize_path(path)}")
+                            return False
+                            
+                    return True
+                else:
+                    # Unix系パスの場合は従来通り
+                    base_path = Path(normalized_base_folder).resolve()
+                    if not Path(normalized_path).is_absolute():
+                        abs_path = (base_path / normalized_path).resolve()
+                    else:
+                        abs_path = Path(normalized_path).resolve()
+                        
+                    if base_path not in abs_path.parents and abs_path != base_path:
+                        logger.warning(f"不正なパスアクセス試行: {self._sanitize_path(path)}")
+                        return False
+                        
+                    dangerous_patterns = ['..', '~', '$', '`', '|', '&', ';']
+                    for pattern in dangerous_patterns:
+                        if pattern in str(abs_path):
+                            logger.warning(f"危険なパターン検出: {self._sanitize_path(path)}")
+                            return False
+                            
+                    return True
+            else:
+                # 従来通りself.base_pathを使用
+                base_path = self.base_path.resolve()
+                abs_path = Path(normalized_path).resolve()
+                
+                if base_path not in abs_path.parents and abs_path != base_path:
+                    logger.warning(f"不正なパスアクセス試行: {self._sanitize_path(path)}")
                     return False
                     
-            return True
+                dangerous_patterns = ['..', '~', '$', '`', '|', '&', ';']
+                for pattern in dangerous_patterns:
+                    if pattern in str(abs_path):
+                        logger.warning(f"危険なパターン検出: {self._sanitize_path(path)}")
+                        return False
+                        
+                return True
             
         except Exception as e:
-            logger.error(f"パス検証エラー: {e}")
+            logger.error(f"パス検証エラー: {self._sanitize_path(path)} - {e}")
             return False
     
     def _get_file_info(self, file_path: Path) -> FileInfo:
@@ -81,12 +196,13 @@ class FileManager:
             extension=file_path.suffix if file_path.suffix else None
         )
     
-    async def list_directory(self, directory_path: str = "") -> DirectoryListing:
+    async def list_directory(self, directory_path: str = "", base_folder: Optional[str] = None) -> DirectoryListing:
         """
         ディレクトリ一覧を取得
         
         Args:
             directory_path: ディレクトリパス
+            base_folder: ベースフォルダ（指定された場合はそれを基準とする）
             
         Returns:
             DirectoryListing: ディレクトリ一覧
@@ -95,19 +211,54 @@ class FileManager:
             ValueError: 不正なパス
             FileNotFoundError: ディレクトリが存在しない
         """
-        if not directory_path:
-            target_path = self.base_path
+        # パスの正規化
+        normalized_directory_path = self._normalize_path(directory_path) if directory_path else ""
+        normalized_base_folder = self._normalize_path(base_folder) if base_folder else None
+        
+        # base_folderが指定されている場合はそれを基準とする
+        if normalized_base_folder:
+            if self._is_windows_path(normalized_base_folder):
+                # Windowsパスの場合：Unix系OSでは実際のファイル操作はできないため、
+                # モックレスポンスを返す
+                if not self._is_safe_path(normalized_directory_path, normalized_base_folder):
+                    raise ValueError("不正なパスです")
+                
+                # Windowsパスへのリクエストの場合は、エラーメッセージで対応
+                raise FileNotFoundError(f"リモートWindowsパスへのアクセスはサポートされていません: {directory_path}")
+            else:
+                # Unix系パスの場合は従来通り
+                base_path = Path(normalized_base_folder)
+                if not normalized_directory_path:
+                    target_path = base_path
+                else:
+                    if not Path(normalized_directory_path).is_absolute():
+                        target_path = base_path / normalized_directory_path
+                    else:
+                        target_path = Path(normalized_directory_path)
+                
+                if not self._is_safe_path(str(target_path), normalized_base_folder):
+                    raise ValueError("不正なパスです")
+                    
+                if not target_path.exists():
+                    raise FileNotFoundError(f"ディレクトリが見つかりません: {directory_path}")
+                    
+                if not target_path.is_dir():
+                    raise ValueError(f"指定されたパスはディレクトリではありません: {directory_path}")
         else:
-            target_path = Path(directory_path)
-            
-        if not self._is_safe_path(str(target_path)):
-            raise ValueError("不正なパスです")
-            
-        if not target_path.exists():
-            raise FileNotFoundError(f"ディレクトリが見つかりません: {target_path}")
-            
-        if not target_path.is_dir():
-            raise ValueError(f"指定されたパスはディレクトリではありません: {target_path}")
+            # 従来通りの処理
+            if not normalized_directory_path:
+                target_path = self.base_path
+            else:
+                target_path = Path(normalized_directory_path)
+                
+            if not self._is_safe_path(str(target_path), normalized_base_folder):
+                raise ValueError("不正なパスです")
+                
+            if not target_path.exists():
+                raise FileNotFoundError(f"ディレクトリが見つかりません: {directory_path}")
+                
+            if not target_path.is_dir():
+                raise ValueError(f"指定されたパスはディレクトリではありません: {directory_path}")
         
         files = []
         
@@ -142,12 +293,13 @@ class FileManager:
             logger.error(f"ディレクトリ一覧取得エラー: {e}")
             raise
     
-    async def load_file(self, file_path: str) -> FileLoadResponse:
+    async def load_file(self, file_path: str, base_folder: Optional[str] = None) -> FileLoadResponse:
         """
         ファイルを読み込み
         
         Args:
             file_path: ファイルパス（base_pathからの相対パス）
+            base_folder: ベースフォルダ（指定された場合はそれを基準とする）
             
         Returns:
             FileLoadResponse: ファイル読み込み結果
@@ -162,7 +314,7 @@ class FileManager:
         else:
             target_path = self.base_path / file_path
         
-        if not self._is_safe_path(str(target_path)):
+        if not self._is_safe_path(str(target_path), base_folder):
             raise ValueError("不正なパスです")
             
         if not target_path.exists():
@@ -197,7 +349,7 @@ class FileManager:
             logger.error(f"ファイル読み込みエラー: {e}")
             raise
     
-    async def save_file(self, file_path: str, content: str, create_directories: bool = True) -> FileSaveResponse:
+    async def save_file(self, file_path: str, content: str, create_directories: bool = True, base_folder: Optional[str] = None) -> FileSaveResponse:
         """
         ファイルを保存
         
@@ -205,6 +357,7 @@ class FileManager:
             file_path: 保存先ファイルパス（base_pathからの相対パス）
             content: 保存内容
             create_directories: ディレクトリが存在しない場合の自動作成
+            base_folder: ベースフォルダ（指定された場合はそれを基準とする）
             
         Returns:
             FileSaveResponse: ファイル保存結果
@@ -218,7 +371,7 @@ class FileManager:
         else:
             target_path = self.base_path / file_path
         
-        if not self._is_safe_path(str(target_path)):
+        if not self._is_safe_path(str(target_path), base_folder):
             raise ValueError("不正なパスです")
         
         # 拡張子チェック
@@ -252,12 +405,13 @@ class FileManager:
             logger.error(f"ファイル保存エラー: {e}")
             raise
     
-    async def delete_file(self, file_path: str) -> FileDeleteResponse:
+    async def delete_file(self, file_path: str, base_folder: Optional[str] = None) -> FileDeleteResponse:
         """
         ファイルを削除
         
         Args:
             file_path: 削除するファイルパス（base_pathからの相対パス）
+            base_folder: ベースフォルダ（指定された場合はそれを基準とする）
             
         Returns:
             FileDeleteResponse: ファイル削除結果
@@ -272,7 +426,7 @@ class FileManager:
         else:
             target_path = self.base_path / file_path
         
-        if not self._is_safe_path(str(target_path)):
+        if not self._is_safe_path(str(target_path), base_folder):
             raise ValueError("不正なパスです")
             
         if not target_path.exists():
@@ -293,12 +447,13 @@ class FileManager:
             logger.error(f"ファイル削除エラー: {e}")
             raise
     
-    async def create_directory(self, directory_path: str) -> bool:
+    async def create_directory(self, directory_path: str, base_folder: Optional[str] = None) -> bool:
         """
         ディレクトリを作成
         
         Args:
             directory_path: 作成するディレクトリパス（base_pathからの相対パス）
+            base_folder: ベースフォルダ（指定された場合はそれを基準とする）
             
         Returns:
             bool: 作成成功の場合True
@@ -312,7 +467,7 @@ class FileManager:
         else:
             target_path = self.base_path / directory_path
         
-        if not self._is_safe_path(str(target_path)):
+        if not self._is_safe_path(str(target_path), base_folder):
             raise ValueError("不正なパスです")
         
         try:
@@ -344,6 +499,40 @@ class FileManager:
         """
         self.backup_manager.update_config(config)
     
+    def get_file_info(self, file_path: str, base_folder: Optional[str] = None) -> dict:
+        """
+        ファイル情報を取得
+        
+        Args:
+            file_path: 情報を取得するファイルのパス
+            base_folder: ベースフォルダ（指定された場合はそれを基準とする）
+            
+        Returns:
+            dict: ファイル情報
+            
+        Raises:
+            ValueError: 不正なパス
+            FileNotFoundError: ファイルが存在しない
+        """
+        # base_pathからの相対パスとして解釈
+        if Path(file_path).is_absolute():
+            target_path = Path(file_path)
+        else:
+            target_path = self.base_path / file_path
+        
+        if not self._is_safe_path(str(target_path), base_folder):
+            raise ValueError("不正なパスです")
+            
+        if not target_path.exists():
+            raise FileNotFoundError(f"ファイルが見つかりません: {target_path}")
+        
+        file_info = self._get_file_info(target_path)
+        
+        return {
+            "file_info": file_info.model_dump(),
+            "absolute_path": str(target_path.resolve())
+        }
+        
     def get_backup_info(self, file_path: str) -> dict:
         """
         バックアップ情報を取得

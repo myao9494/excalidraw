@@ -29,6 +29,7 @@ def get_file_manager(
 @router.get("/", response_model=DirectoryListing)
 async def list_files(
     directory_path: Optional[str] = Query("", description="ディレクトリパス"),
+    base_folder: Optional[str] = Query(None, description="ベースフォルダパス"),
     file_manager: FileManager = Depends(get_file_manager)
 ):
     """
@@ -36,6 +37,7 @@ async def list_files(
     
     Args:
         directory_path: ディレクトリパス（空文字列の場合は現在のディレクトリ）
+        base_folder: ベースフォルダパス
         file_manager: FileManagerインスタンス
         
     Returns:
@@ -45,7 +47,7 @@ async def list_files(
         HTTPException: エラーが発生した場合
     """
     try:
-        return await file_manager.list_directory(directory_path)
+        return await file_manager.list_directory(directory_path, base_folder)
         
     except ValueError as e:
         logger.error(f"不正なパス: {e}")
@@ -236,26 +238,7 @@ async def get_file_info(
         HTTPException: エラーが発生した場合
     """
     try:
-        from pathlib import Path
-        
-        # base_pathからの相対パスとして解釈
-        if Path(file_path).is_absolute():
-            target_path = Path(file_path)
-        else:
-            target_path = file_manager.base_path / file_path
-        
-        if not file_manager._is_safe_path(str(target_path)):
-            raise ValueError("不正なパスです")
-            
-        if not target_path.exists():
-            raise FileNotFoundError(f"ファイルが見つかりません: {target_path}")
-        
-        file_info = file_manager._get_file_info(target_path)
-        
-        return {
-            "file_info": file_info.model_dump(),
-            "absolute_path": str(target_path.resolve())
-        }
+        return file_manager.get_file_info(file_path)
         
     except ValueError as e:
         logger.error(f"不正なパス: {e}")

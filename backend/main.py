@@ -7,6 +7,7 @@ import os
 from datetime import datetime
 from routers import files
 from models.schemas import HealthCheckResponse, ErrorResponse
+from middleware import LoggingMiddleware
 
 # ログ設定
 logging.basicConfig(
@@ -33,6 +34,9 @@ app = FastAPI(
     redoc_url="/api/redoc",
     lifespan=lifespan
 )
+
+# カスタムログミドルウェア（FastAPIのデフォルトログを無効化）
+app.add_middleware(LoggingMiddleware)
 
 # CORS設定
 app.add_middleware(
@@ -127,5 +131,6 @@ if __name__ == "__main__":
         host=host,
         port=port,
         reload=debug,
-        log_level="info"
+        log_level="info",
+        access_log=False  # Uvicornのアクセスログを無効化
     )

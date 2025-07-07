@@ -65,6 +65,21 @@ class TestFileManager:
         for path in dangerous_paths:
             assert file_manager._is_safe_path(path) is False
     
+    def test_is_safe_path_with_base_folder(self, temp_dir):
+        """base_folderを指定した場合の安全なパスのテスト"""
+        base_folder = str(temp_dir / "subfolder")
+        os.makedirs(base_folder, exist_ok=True)
+        
+        file_manager = FileManager(str(temp_dir))
+        safe_path = "test.excalidraw"
+        
+        # base_folderを指定した場合
+        assert file_manager._is_safe_path(safe_path, base_folder) is True
+        
+        # base_folderの外部へのアクセスを試行
+        dangerous_path = "../../../etc/passwd"
+        assert file_manager._is_safe_path(dangerous_path, base_folder) is False
+    
     def test_get_file_info(self, file_manager, temp_dir, sample_excalidraw_content):
         """ファイル情報取得のテスト"""
         test_file = temp_dir / "test.excalidraw"
