@@ -5,6 +5,9 @@ import { flushSync } from "react-dom";
 import rough from "roughjs/bin/rough";
 import { nanoid } from "nanoid";
 
+import { parseEmailFromDataTransfer, saveEmailToFile, generateEmailFileName } from "../utils/emailUtils";
+import type { EmailData } from "../utils/emailUtils";
+
 import {
   clamp,
   pointFrom,
@@ -10236,6 +10239,13 @@ class App extends React.Component<AppProps, AppState> {
       this.state,
     );
 
+    // メールのドラッグ・アンド・ドロップ処理
+    const emailData = await parseEmailFromDataTransfer(event.dataTransfer);
+    if (emailData) {
+      await this.handleEmailDrop(emailData, sceneX, sceneY);
+      return;
+    }
+
     try {
       // if image tool not supported, don't show an error here and let it fall
       // through so we still support importing scene data from images. If no
@@ -10322,6 +10332,68 @@ class App extends React.Component<AppProps, AppState> {
           this.setState({ selectedElementIds: { [embeddable.id]: true } });
         }
       }
+    }
+  };
+
+  private handleEmailDrop = async (emailData: EmailData, sceneX: number, sceneY: number) => {
+    try {
+      // メールファイルを保存
+      const fileName = generateEmailFileName(emailData);
+      const fileUrl = await saveEmailToFile(emailData, fileName);
+      
+      // 付箋を作成（メールのタイトルをテキストとして使用）
+      const noteElement = newElement({
+        type: "rectangle",
+        x: sceneX - 100, // 付箋の中央をドロップ位置に
+        y: sceneY - 75,  // 付箋の中央をドロップ位置に
+        width: 200,
+        height: 150,
+        strokeColor: "#1e1e1e",
+        backgroundColor: "#fef3c7",
+        fillStyle: "solid",
+        strokeWidth: 2,
+        roughness: 0,
+        opacity: 100,
+        link: fileUrl, // 保存されたメールファイルへのリンク
+      });
+
+      // テキストエレメントを作成（メールの件名）
+      const textElement = newTextElement({
+        x: sceneX - 90,  // 付箋内の左上
+        y: sceneY - 65,  // 付箋内の左上
+        text: emailData.subject || "メール",
+        fontSize: 16,
+        fontFamily: 1,
+        textAlign: "left",
+        verticalAlign: "top",
+        strokeColor: "#1e1e1e",
+        backgroundColor: "transparent",
+        fillStyle: "solid",
+        strokeWidth: 1,
+        roughness: 0,
+        opacity: 100,
+      });
+
+      // エレメントを追加
+      this.setState({
+        ...this.state,
+        selectedElementIds: {
+          [noteElement.id]: true,
+          [textElement.id]: true,
+        },
+      });
+      
+      this.syncActionResult({
+        elements: [...this.scene.getElementsIncludingDeleted(), noteElement, textElement],
+        appState: this.state,
+        captureUpdate: CaptureUpdateAction.IMMEDIATELY,
+      });
+
+    } catch (error: any) {
+      console.error("メールドロップ処理でエラーが発生しました:", error);
+      this.setState({
+        errorMessage: `メールの処理に失敗しました: ${error.message}`,
+      });
     }
   };
 

@@ -71,6 +71,9 @@ The Excalidraw editor (npm package) supports:
 - 💾&nbsp;Open format - export drawings as an `.excalidraw` json file.
 - ⚒️&nbsp;Wide range of tools - rectangle, circle, diamond, arrow, line, free-draw, eraser...
 - ➡️&nbsp;Arrow-binding & labeled arrows.
+- 📝&nbsp;Quick sticky note creation with keyboard shortcuts (N key).
+- 🔗&nbsp;Link-enabled sticky notes (W key) with clipboard integration.
+- 📧&nbsp;Email drag-and-drop support with automatic file saving.
 - 🔙&nbsp;Undo / Redo.
 - 🔍&nbsp;Zoom and panning support.
 
@@ -85,6 +88,29 @@ The app hosted at [excalidraw.com](https://excalidraw.com) is a minimal showcase
 - 🔗&nbsp;Shareable links (export to a readonly link you can share with others).
 
 We'll be adding these features as drop-in plugins for the npm package in the future.
+
+## 📝 Enhanced Sticky Notes & Email Integration
+
+This version of Excalidraw includes enhanced productivity features for quick note-taking and email management:
+
+### Sticky Note Creation
+- **N key**: Create a yellow sticky note at cursor position (200x150px)
+- **W key**: Create a sticky note with clipboard link attached
+- Automatic positioning at mouse cursor location
+- Immediate selection for quick editing
+
+### Email Drag & Drop
+- **Supported clients**: macOS Mail, Thunderbird, Outlook (partial)
+- **Automatic processing**: Extract subject, sender, and content
+- **Local file saving**: EML format with automatic folder creation
+- **Smart linking**: Sticky notes automatically link to saved email files
+
+#### Email Storage Options
+- **Chrome/Edge**: File System Access API with user-selected folder + automatic `mail/` subfolder
+- **Other browsers**: Automatic download to Downloads folder
+- **File format**: RFC822-compliant EML files with timestamp naming
+
+For detailed usage instructions, see [docs/付箋機能とメール連携.md](./docs/付箋機能とメール連携.md).
 
 ## Quick start
 
