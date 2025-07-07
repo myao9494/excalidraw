@@ -13,6 +13,7 @@
     "copyText": "テキストとしてクリップボードにコピー",
     "copySource": "",
     "convertToCode": "",
+    "createNote": "付箋を作成",
     "bringForward": "前面に移動",
     "sendToBack": "最背面に移動",
     "bringToFront": "最前面に移動",

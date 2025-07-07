@@ -7,6 +7,7 @@ export {
 } from "./actionZindex";
 export { actionSelectAll } from "./actionSelectAll";
 export { actionDuplicateSelection } from "./actionDuplicateSelection";
+export { actionCreateNote } from "./actionCreateNote";
 export {
   actionChangeStrokeColor,
   actionChangeBackgroundColor,
