@@ -144,7 +144,8 @@ export type ActionName =
   | "toggleLassoTool"
   | "toggleShapeSwitch"
   | "togglePolygon"
-  | "createNote";
+  | "createNote"
+  | "createNoteWithLink";
 
 export type PanelComponentProps = {
   elements: readonly ExcalidrawElement[];

@@ -8,6 +8,7 @@ export {
 export { actionSelectAll } from "./actionSelectAll";
 export { actionDuplicateSelection } from "./actionDuplicateSelection";
 export { actionCreateNote } from "./actionCreateNote";
+export { actionCreateNoteWithLink } from "./actionCreateNoteWithLink";
 export {
   actionChangeStrokeColor,
   actionChangeBackgroundColor,

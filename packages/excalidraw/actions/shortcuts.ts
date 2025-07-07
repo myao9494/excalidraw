@@ -51,6 +51,7 @@ export type ShortcutName =
       | "toggleShortcuts"
       | "wrapSelectionInFrame"
       | "createNote"
+      | "createNoteWithLink"
     >
   | "saveScene"
   | "imageExport"
@@ -118,6 +119,7 @@ const shortcutMap: Record<ShortcutName, string[]> = {
   searchMenu: [getShortcutKey("CtrlOrCmd+F")],
   wrapSelectionInFrame: [],
   createNote: [getShortcutKey("n")],
+  createNoteWithLink: [getShortcutKey("w")],
 };
 
 export const getShortcutFromShortcutName = (name: ShortcutName, idx = 0) => {
